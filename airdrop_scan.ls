@@ -7,7 +7,12 @@ require! {
 }
 
 API-KEY = \GR42RCNKD327X3KWFQJRBJ7QE7ZHZEY4RV
-ADDRESS = \0x3AA5FA4FBF18d19548680a5f2BbA061b18Fed26b
+
+# KickICO
+#ADDRESS = \0x3AA5FA4FBF18d19548680a5f2BbA061b18Fed26b
+
+# Credo
+ADDRESS = \0x4E0603e2A27A30480E5e3a4Fe548e29EF12F64bE
 
 get-txs-template=-> "http://api.etherscan.io/api?module=account&action=txlist&address=#{it}&startblock=0&endblock=99999999&sort=asc&apikey=#{API-KEY}"
 
