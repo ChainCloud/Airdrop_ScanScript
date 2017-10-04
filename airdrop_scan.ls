@@ -18,6 +18,7 @@ get-txs-template=-> "http://api.etherscan.io/api?module=account&action=txlist&ad
 
 get-addresses-array=(address, cb)-> request get-txs-template(address), (err, res, body)-> 
 	if body.0 == \< => return cb \get-addresses-array: + body
+	console.log 'Addresses count:' JSON.parse(body).result.length
 	JSON.parse(body).result
 		|> p.map (.from)
 		|> p.unique
@@ -51,7 +52,12 @@ get-non-empty-accounts-array=(address-pack, cb)-> request balance-form-request(a
 				console.log 'Non empty from this 20:\n', p.join \\n arr
 				fs.appendFileSync 'result.txt', p.join '\n' arr 
 				fs.appendFileSync 'result.txt', '\n' 
-			sleep.msleep 10 
-			cycle(cb)
+
+			if n==(steps)
+				console.log \Finished
+				return
+			else
+				sleep.msleep 10 
+				cycle(cb)
 	)()
 )()
