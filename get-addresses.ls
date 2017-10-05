@@ -36,43 +36,65 @@ erc20-addresses = <[ 0xd0d6d6c5fe4a677d343cc433536bb717bae167dd 0x960b236A07cf12
 
 max-item = erc20-addresses.length - 1
 
-get-balances-cycle=(address, cb)~>
-	get-tokens-balance erc20-addresses[CURR], address, (err,res)~>
-		sleep.msleep 100
-		if err
-			console.log \err: err 
-			return get-balances-cycle(address,cb)
+# get-balances-cycle=(address, cb)~>
+# 	get-tokens-balance erc20-addresses[CURR], address, (err,res)~>
+# 		sleep.msleep 100
+# 		if err
+# 			console.log \err: err 
+# 			return get-balances-cycle(address,cb)
 
-		balances.push +res
+# 		balances.push +res
 
-		process.stdout.clearLine!
-		process.stdout.cursorTo(0)
-		process.stdout.write("=== address: #{j+1}/#{max-address+1} === contract: #{CURR+1} of #{max-item+1} === balances length: #{p.compact(balances).length}")
-		# process.stdout.clearLine!
-		# process.stdout.cursorTo(0)
+# 		process.stdout.clearLine!
+# 		process.stdout.cursorTo(0)
+# 		process.stdout.write("=== address: #{j+1}/#{max-address+1} === contract: #{CURR+1} of #{max-item+1} === balances length: #{p.compact(balances).length}")
+# 		# process.stdout.clearLine!
+# 		# process.stdout.cursorTo(0)
+
+# 		if CURR == max-item 
+# 			out = p.compact(balances).length
+# 			balances := []	
+# 			CURR := 0	
+# 			console.log '  |  total:' p.compact(balances).length
+# 			if out >= 5 => return cb addresses[j]
+# 			else return cb ''
+# 		else 
+# 			CURR += 1
+# 			get-balances-cycle(address,cb)
 
 
-		if CURR == max-item 
-			out = p.compact(balances).length
-			balances := []	
-			CURR := 0	
-			console.log '  |  total:' p.compact(balances).length
-			if out >= 5 => return cb addresses[j]
-			else return cb ''
-		else 
-			CURR += 1
-			get-balances-cycle(address,cb)
+# fs.readFile \result.txt, \UTF8, (err,res)~>
+# 	addresses :=  p.lines res
+# 	max-address := addresses.length - 1
+
+
+# 	(get-balances-for-all=~>
+# 		get-balances-cycle addresses[j], (res)~>
+# 			str = "#{res}\n"
+# 			if res => fs.appendFileSync \total.txt str
+# 			if j == max-address => return console.log \DONE
+# 			j += 1
+# 			get-balances-for-all!
+# 	)()
+
+get-kind-of-tokens-count=(address,cb)-> request 'https://etherscan.io/address/'+address, (err,res,body)->
+	count = +body.replace /[\S\s]+title\=\'([\S]+?) Token Contracts[\S\s]+/gi, '$1'
+	process.stdout
+		..clearLine!
+		..cursorTo(0)
+		..write("=== address: #{j+1}/#{max-address+1} === kind of tokens: #{count}")
+	if count >= 5 => return cb address
+	else return cb null
 
 
 fs.readFile \result.txt, \UTF8, (err,res)~>
 	addresses :=  p.lines res
 	max-address := addresses.length - 1
 
-
 	(get-balances-for-all=~>
-		get-balances-cycle addresses[j], (res)~>
+		get-kind-of-tokens-count addresses[j], (res)~>
 			str = "#{res}\n"
-			if res => fs.appendFileSync \total.txt str
+			if res => fs.appendFileSync \total.txt str				
 			if j == max-address => return console.log \DONE
 			j += 1
 			get-balances-for-all!
