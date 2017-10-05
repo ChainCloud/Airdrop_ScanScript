@@ -11,7 +11,7 @@ API-KEY = \GR42RCNKD327X3KWFQJRBJ7QE7ZHZEY4RV
 # KickICO
 #ADDRESS = \0x3AA5FA4FBF18d19548680a5f2BbA061b18Fed26b
 
-# Credo
+# Credo 
 ADDRESS = \0x4E0603e2A27A30480E5e3a4Fe548e29EF12F64bE
 
 get-txs-template=-> "http://api.etherscan.io/api?module=account&action=txlist&address=#{it}&startblock=0&endblock=99999999&sort=asc&apikey=#{API-KEY}"
@@ -53,7 +53,7 @@ get-non-empty-accounts-array=(address-pack, cb)-> request balance-form-request(a
 				fs.appendFileSync 'result.txt', p.join '\n' arr 
 				fs.appendFileSync 'result.txt', '\n' 
 
-			if n==(steps)
+			if n==(steps - 1)
 				console.log \Finished
 				return
 			else
