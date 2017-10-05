@@ -79,10 +79,11 @@ max-item = erc20-addresses.length - 1
 
 get-kind-of-tokens-count=(address,cb)-> request 'https://etherscan.io/address/'+address, (err,res,body)->
 	count = +body.replace /[\S\s]+title\=\'([\S]+?) Token Contracts[\S\s]+/gi, '$1'
+
 	process.stdout
 		..clearLine!
 		..cursorTo(0)
-		..write("=== address: #{j+1}/#{max-address+1} === kind of tokens: #{count}")
+		..write("#{j+1}/#{max-address+1} === #{address} === tokens: #{count||0}\n")
 	if count >= 5 => return cb address
 	else return cb null
 
