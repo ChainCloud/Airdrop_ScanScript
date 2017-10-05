@@ -53,8 +53,10 @@ get-balances-cycle=(address, cb)~>
 
 		if CURR == max-item 
 			CURR := 0
-			balances := []			
-			return cb(p.compact(balances).length)
+			out = p.compact(balances).length
+			balances := []		
+
+			return cb out
 		else 
 			CURR += 1
 			get-balances-cycle(address,cb)
