@@ -83,7 +83,7 @@ get-kind-of-tokens-count=(address,cb)-> request 'https://etherscan.io/address/'+
 	process.stdout
 		..clearLine!
 		..cursorTo(0)
-		..write("#{j+1}/#{max-address+1} === #{address} === tokens: #{count||0}\n")
+		..write("#{j+1}/#{max-address+1} === #{address} === tokens: #{count||'0or1'}\n")
 	if count >= 5 => return cb address
 	else return cb null
 
