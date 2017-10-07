@@ -71,7 +71,7 @@ max-item = erc20-addresses.length - 1
 # 	(get-balances-for-all=~>
 # 		get-balances-cycle addresses[j], (res)~>
 # 			str = "#{res}\n"
-# 			if res => fs.appendFileSync \total.txt str
+# 			if res => fs.appendFileSync \filtered.txt str
 # 			if j == max-address => return console.log \DONE
 # 			j += 1
 # 			get-balances-for-all!
@@ -95,7 +95,7 @@ fs.readFile \result.txt, \UTF8, (err,res)~>
 	(get-balances-for-all=~>
 		get-kind-of-tokens-count addresses[j], (res)~>
 			str = "#{res}\n"
-			if res => fs.appendFileSync \total.txt str				
+			if res => fs.appendFileSync \filtered.txt str				
 			if j == max-address => return console.log \DONE
 			j += 1
 			get-balances-for-all!
